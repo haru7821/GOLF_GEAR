@@ -117,12 +117,33 @@ export const BRANDS: readonly Brand[] = [
     heritage: "메탈우드를 대중화한 원조, 투어와 소비자 라인업의 균형이 강점",
   },
   {
-    slug: "cobra",
-    name: "Cobra",
-    tier: "B",
-    note: "커스터마이징 옵션이 강점",
-    origin: "미국",
-    founded: "1973",
-    heritage: "PUMA 산하, 다양한 커스텀 핏 옵션과 대담한 디자인이 특징",
+    slug: "miura",
+    name: "Miura",
+    tier: "S",
+    note: "손 단조 아이언의 정점, 클럽 헤드 장인정신의 상징",
+    origin: "일본",
+    founded: "1957",
+    heritage:
+      "효고현 히메지에서 미우라 카츠히로가 설립. 소량 수작업 단조로 '아이언의 예술품'이라 불리며 전 세계 투어 프로·수집가에게 최상급으로 평가받음",
+  },
+  {
+    slug: "mizuno",
+    name: "Mizuno",
+    tier: "A",
+    note: "그레인 플로우 단조 기술로 검증된 타구감",
+    origin: "일본",
+    founded: "1906",
+    heritage:
+      "100년 이상 축적된 그레인 플로우 단조(Grain Flow Forged) 공법으로 투어 프로들의 신뢰가 두터운 정밀 아이언 명가",
+  },
+  {
+    slug: "epon",
+    name: "Epon",
+    tier: "A",
+    note: "일본 소규모 공방의 하이엔드 커스텀 단조 아이언",
+    origin: "일본",
+    founded: "확인 필요",
+    heritage:
+      "소량 생산 체제의 부티크 브랜드로, 미우라와 함께 일본 하이엔드 단조 아이언을 대표하는 마니아층 지지 브랜드 (설립 연혁·수치는 검증 필요)",
   },
 ];
