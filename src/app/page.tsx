@@ -1,52 +1,6 @@
+import Link from "next/link";
 import { Logo } from "@/components/Logo";
-
-const TIERS = [
-  {
-    code: "S",
-    label: "Icon",
-    labelKo: "아이코닉",
-    color: "bg-brass text-paper",
-    desc: "브랜드 헤리티지와 기술력 모두에서 업계를 정의해온 최상위 브랜드.",
-  },
-  {
-    code: "A",
-    label: "Premium",
-    labelKo: "프리미엄",
-    color: "bg-fairway text-paper",
-    desc: "뚜렷한 기술적 차별점과 높은 완성도를 갖춘 프리미엄 브랜드.",
-  },
-  {
-    code: "B",
-    label: "Established",
-    labelKo: "정통",
-    color: "bg-ink text-paper",
-    desc: "오랜 업력과 안정적인 제품군으로 신뢰를 쌓아온 브랜드.",
-  },
-  {
-    code: "C",
-    label: "Value",
-    labelKo: "합리적",
-    color: "bg-mist text-paper",
-    desc: "합리적인 가격대에서 준수한 성능을 제공하는 브랜드.",
-  },
-  {
-    code: "D",
-    label: "Entry",
-    labelKo: "입문",
-    color: "bg-line text-ink",
-    desc: "입문자 접근성에 초점을 맞춘 브랜드.",
-  },
-] as const;
-
-// 샘플 데이터 — 실제 등급·근거는 Agent 2(정보 수집) 단계에서 채워집니다.
-const SAMPLE_BRANDS = [
-  { name: "Titleist", tier: "S", note: "투어 채택률 1위, 정밀 단조 아이언의 기준" },
-  { name: "Honma", tier: "S", note: "일본 프리미엄 헤리티지, 수공정 마감" },
-  { name: "Callaway", tier: "A", note: "AI 페이스 설계 등 기술 혁신 주도" },
-  { name: "PXG", tier: "A", note: "고성능·고가 포지셔닝의 대표 브랜드" },
-  { name: "TaylorMade", tier: "A", note: "투어-소비자 라인업 균형" },
-  { name: "Cobra", tier: "B", note: "커스터마이징 옵션이 강점" },
-] as const;
+import { TIERS, BRANDS, tierOf } from "@/data/brands";
 
 export default function Home() {
   return (
@@ -58,9 +12,9 @@ export default function Home() {
             <a href="#tiers" className="hover:text-ink">
               등급 체계
             </a>
-            <a href="#brands" className="hover:text-ink">
+            <Link href="/brands" className="hover:text-ink">
               브랜드
-            </a>
+            </Link>
             <a href="#about" className="hover:text-ink">
               소개
             </a>
@@ -85,12 +39,12 @@ export default function Home() {
             프리미엄 레퍼런스입니다.
           </p>
           <div className="mt-10 flex gap-4">
-            <a
-              href="#brands"
+            <Link
+              href="/brands"
               className="rounded-md bg-fairway px-6 py-3 text-sm text-paper transition-colors hover:bg-fairway-light"
             >
               브랜드 등급 보기
-            </a>
+            </Link>
             <a
               href="#about"
               className="rounded-md border border-line px-6 py-3 text-sm text-ink transition-colors hover:border-ink"
@@ -110,7 +64,7 @@ export default function Home() {
               {TIERS.map((t) => (
                 <div key={t.code} className="bg-paper p-6">
                   <span
-                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-mono text-sm ${t.color}`}
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-mono text-sm ${t.colorClass}`}
                   >
                     {t.code}
                   </span>
@@ -127,28 +81,32 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sample brand cards */}
+        {/* Brand preview */}
         <section id="brands" className="mx-auto max-w-[1120px] px-6 py-24">
           <div className="flex items-baseline justify-between">
             <h2 className="font-display text-3xl tracking-tight">
               브랜드 등급 (샘플)
             </h2>
-            <p className="font-mono text-xs text-mist">
-              정식 데이터 준비 중 — Agent 2
-            </p>
+            <Link
+              href="/brands"
+              className="font-mono text-xs text-fairway hover:underline"
+            >
+              전체 보기 →
+            </Link>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SAMPLE_BRANDS.map((b) => {
-              const tier = TIERS.find((t) => t.code === b.tier)!;
+            {BRANDS.map((b) => {
+              const tier = tierOf(b.tier);
               return (
-                <div
-                  key={b.name}
+                <Link
+                  key={b.slug}
+                  href={`/brands/${b.slug}`}
                   className="rounded-md border border-line p-6 transition-colors hover:border-ink"
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-display text-xl">{b.name}</p>
                     <span
-                      className={`flex h-7 w-7 items-center justify-center rounded-full font-mono text-xs ${tier.color}`}
+                      className={`flex h-7 w-7 items-center justify-center rounded-full font-mono text-xs ${tier.colorClass}`}
                     >
                       {tier.code}
                     </span>
@@ -156,10 +114,13 @@ export default function Home() {
                   <p className="mt-3 text-sm leading-relaxed text-mist">
                     {b.note}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>
+          <p className="mt-6 font-mono text-xs text-mist">
+            * 위 등급·설명은 정보 수집·검수 전 샘플이며 사실관계 확인 후 갱신됩니다.
+          </p>
         </section>
 
         {/* About / criteria */}
