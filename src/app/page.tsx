@@ -1,0 +1,212 @@
+import { Logo } from "@/components/Logo";
+
+const TIERS = [
+  {
+    code: "S",
+    label: "Icon",
+    labelKo: "아이코닉",
+    color: "bg-brass text-paper",
+    desc: "브랜드 헤리티지와 기술력 모두에서 업계를 정의해온 최상위 브랜드.",
+  },
+  {
+    code: "A",
+    label: "Premium",
+    labelKo: "프리미엄",
+    color: "bg-fairway text-paper",
+    desc: "뚜렷한 기술적 차별점과 높은 완성도를 갖춘 프리미엄 브랜드.",
+  },
+  {
+    code: "B",
+    label: "Established",
+    labelKo: "정통",
+    color: "bg-ink text-paper",
+    desc: "오랜 업력과 안정적인 제품군으로 신뢰를 쌓아온 브랜드.",
+  },
+  {
+    code: "C",
+    label: "Value",
+    labelKo: "합리적",
+    color: "bg-mist text-paper",
+    desc: "합리적인 가격대에서 준수한 성능을 제공하는 브랜드.",
+  },
+  {
+    code: "D",
+    label: "Entry",
+    labelKo: "입문",
+    color: "bg-line text-ink",
+    desc: "입문자 접근성에 초점을 맞춘 브랜드.",
+  },
+] as const;
+
+// 샘플 데이터 — 실제 등급·근거는 Agent 2(정보 수집) 단계에서 채워집니다.
+const SAMPLE_BRANDS = [
+  { name: "Titleist", tier: "S", note: "투어 채택률 1위, 정밀 단조 아이언의 기준" },
+  { name: "Honma", tier: "S", note: "일본 프리미엄 헤리티지, 수공정 마감" },
+  { name: "Callaway", tier: "A", note: "AI 페이스 설계 등 기술 혁신 주도" },
+  { name: "PXG", tier: "A", note: "고성능·고가 포지셔닝의 대표 브랜드" },
+  { name: "TaylorMade", tier: "A", note: "투어-소비자 라인업 균형" },
+  { name: "Cobra", tier: "B", note: "커스터마이징 옵션이 강점" },
+] as const;
+
+export default function Home() {
+  return (
+    <>
+      <header className="border-b border-line">
+        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-5">
+          <Logo />
+          <nav className="hidden gap-8 text-sm text-mist sm:flex">
+            <a href="#tiers" className="hover:text-ink">
+              등급 체계
+            </a>
+            <a href="#brands" className="hover:text-ink">
+              브랜드
+            </a>
+            <a href="#about" className="hover:text-ink">
+              소개
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        {/* Hero */}
+        <section className="mx-auto max-w-[1120px] px-6 pb-24 pt-28 sm:pt-36">
+          <p className="font-mono text-xs tracking-[0.2em] text-mist uppercase">
+            Golf Club Brand Grading
+          </p>
+          <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.1] tracking-tight sm:text-7xl">
+            골프 클럽 브랜드,
+            <br />
+            <span className="italic text-fairway">정확한 등급</span>으로.
+          </h1>
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-mist">
+            헤리티지, 기술력, 투어 채택률, 가격 포지셔닝을 기준으로
+            골프 클럽 브랜드를 다섯 단계로 나눠 보여주는
+            프리미엄 레퍼런스입니다.
+          </p>
+          <div className="mt-10 flex gap-4">
+            <a
+              href="#brands"
+              className="rounded-md bg-fairway px-6 py-3 text-sm text-paper transition-colors hover:bg-fairway-light"
+            >
+              브랜드 등급 보기
+            </a>
+            <a
+              href="#about"
+              className="rounded-md border border-line px-6 py-3 text-sm text-ink transition-colors hover:border-ink"
+            >
+              선정 기준
+            </a>
+          </div>
+        </section>
+
+        {/* Tier legend */}
+        <section id="tiers" className="border-y border-line bg-ink/[0.02]">
+          <div className="mx-auto max-w-[1120px] px-6 py-20">
+            <h2 className="font-display text-3xl tracking-tight">
+              등급 체계
+            </h2>
+            <div className="mt-10 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-5">
+              {TIERS.map((t) => (
+                <div key={t.code} className="bg-paper p-6">
+                  <span
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-mono text-sm ${t.color}`}
+                  >
+                    {t.code}
+                  </span>
+                  <p className="mt-4 font-display text-lg">{t.labelKo}</p>
+                  <p className="text-xs tracking-wide text-mist uppercase">
+                    {t.label}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-mist">
+                    {t.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Sample brand cards */}
+        <section id="brands" className="mx-auto max-w-[1120px] px-6 py-24">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-3xl tracking-tight">
+              브랜드 등급 (샘플)
+            </h2>
+            <p className="font-mono text-xs text-mist">
+              정식 데이터 준비 중 — Agent 2
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SAMPLE_BRANDS.map((b) => {
+              const tier = TIERS.find((t) => t.code === b.tier)!;
+              return (
+                <div
+                  key={b.name}
+                  className="rounded-md border border-line p-6 transition-colors hover:border-ink"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="font-display text-xl">{b.name}</p>
+                    <span
+                      className={`flex h-7 w-7 items-center justify-center rounded-full font-mono text-xs ${tier.color}`}
+                    >
+                      {tier.code}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-mist">
+                    {b.note}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* About / criteria */}
+        <section id="about" className="border-t border-line bg-ink text-paper">
+          <div className="mx-auto max-w-[1120px] px-6 py-24">
+            <h2 className="font-display text-3xl tracking-tight">
+              선정 기준
+            </h2>
+            <div className="mt-10 grid gap-10 sm:grid-cols-3">
+              <div>
+                <p className="font-mono text-xs tracking-[0.2em] text-brass uppercase">
+                  01
+                </p>
+                <p className="mt-3 font-display text-lg">헤리티지</p>
+                <p className="mt-2 text-sm leading-relaxed text-paper/70">
+                  브랜드의 역사와 기술 축적, 업계에 대한 기여도.
+                </p>
+              </div>
+              <div>
+                <p className="font-mono text-xs tracking-[0.2em] text-brass uppercase">
+                  02
+                </p>
+                <p className="mt-3 font-display text-lg">투어 · 검증</p>
+                <p className="mt-2 text-sm leading-relaxed text-paper/70">
+                  프로 투어 채택률과 실사용자 평가로 검증된 성능.
+                </p>
+              </div>
+              <div>
+                <p className="font-mono text-xs tracking-[0.2em] text-brass uppercase">
+                  03
+                </p>
+                <p className="mt-3 font-display text-lg">가격 포지셔닝</p>
+                <p className="mt-2 text-sm leading-relaxed text-paper/70">
+                  가격대비 완성도와 시장 내 포지셔닝의 일관성.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-8 text-xs text-mist">
+          <Logo withWordmark={false} className="text-mist" />
+          <p>© {new Date().getFullYear()} CLUBRANK</p>
+        </div>
+      </footer>
+    </>
+  );
+}
