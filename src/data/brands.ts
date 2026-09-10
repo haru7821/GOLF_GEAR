@@ -76,6 +76,20 @@ export type Source = {
   url: string;
 };
 
+/**
+ * 브랜드 추천(진단)에 쓰는 성향 프로필.
+ * 사실 데이터가 아니라 heritage/signatureIron에 적힌 내용을 근거로 한
+ * 편집 판단이며, 추천 화면에서도 그렇게 밝힌다.
+ */
+export type Profile = {
+  /** 무리 없이 다룰 수 있는 구력대 */
+  skill: ("입문" | "중급" | "상급")[];
+  /** 설계가 우선하는 가치 */
+  priority: "타구감" | "관용성" | "균형";
+  /** 커스텀 피팅 의존도 */
+  fitting: "필수" | "권장" | "불필요";
+};
+
 export type Brand = {
   slug: string;
   name: string;
@@ -88,6 +102,7 @@ export type Brand = {
   /** 투어 채택·성적 근거. 확인된 자료가 없으면 생략한다. */
   tour?: string;
   price: Price;
+  profile: Profile;
   signatureIron?: SignatureIron;
   sources: Source[];
 };
@@ -128,6 +143,7 @@ export const BRANDS: readonly Brand[] = [
       "Acushnet Company 산하로 볼·클럽 전 라인업에서 투어 신뢰도가 가장 높은 브랜드. 프로 장비 선택에서 사실상의 기준점 역할을 해왔다.",
     tour: "2025 PGA 투어에서 가장 많이 사용된 아이언 브랜드. 아이언 기준 30승에 사용됐고, T100은 단일 모델 사용자 12명으로 최다.",
     price: { band: "상위", note: "T100(2021) 5-P 세트 기준 약 US$495 선" },
+    profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
       model: "T100",
       lofts: [
@@ -160,6 +176,7 @@ export const BRANDS: readonly Brand[] = [
       "GE 엔지니어 출신 카스텐 솔하임이 캘리포니아 자택 차고에서 퍼터를 만들며 시작. 헤드 무게를 주변부로 분산하는 '페리미터 웨이팅'을 정착시켜, 시행착오에 의존하던 클럽 설계를 공학의 영역으로 옮겼다. 브랜드명은 임팩트 순간의 소리에서 따왔다.",
     tour: "2025 PGA 투어 아이언 사용 브랜드 상위권. 아이언 기준 9승에 사용.",
     price: { band: "상위" },
+    profile: { skill: ["입문", "중급", "상급"], priority: "균형", fitting: "필수" },
     signatureIron: {
       model: "i230",
       lofts: [{ club: "7I", loft: "33°" }],
@@ -186,6 +203,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1959년 2월 혼마 유키히로·히로 형제가 요코하마에 츠루미 골프센터를 열며 시작했고, 1963년 첫 자사 브랜드 클럽을 냈다. 1981년 야마가타현 사카타로 생산 거점을 옮겨 지금도 약 360명의 장인이 상주하는 캠퍼스에서 클럽을 만든다.",
     price: { band: "최상위", note: "베레스 상위 등급은 초고가대에 위치" },
+    profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
       model: "TW757 Vx",
       lofts: [
@@ -225,6 +243,7 @@ export const BRANDS: readonly Brand[] = [
       band: "최상위",
       note: "아이언 1클럽당 약 US$279–339, 커스텀 피팅 포함 판매",
     },
+    profile: { skill: ["상급"], priority: "타구감", fitting: "필수" },
     signatureIron: {
       model: "CB-2007",
       lofts: [
@@ -265,6 +284,7 @@ export const BRANDS: readonly Brand[] = [
       "빅버사로 대형 헤드 드라이버를 대중화한 이후, 페이스 설계 시뮬레이션을 앞세워 기술 혁신을 이끌어왔다. 2003년 톱플라이트를 인수했다가 2012년 딕스 스포팅 굿즈에 매각한 이력도 있다.",
     tour: "2025 PGA 투어 아이언 기준 8승에 사용.",
     price: { band: "중상위" },
+    profile: { skill: ["중급", "상급"], priority: "관용성", fitting: "권장" },
     signatureIron: {
       model: "Apex Pro (2024)",
       lofts: [
@@ -301,6 +321,7 @@ export const BRANDS: readonly Brand[] = [
       "메탈우드를 대중화한 원조 브랜드로, 드라이버 기술 경쟁을 주도해왔다. 투어 전용에 가까운 P-시리즈부터 대중형까지 라인업 폭이 넓다.",
     tour: "2025 PGA 투어 아이언 기준 17승에 사용, 브랜드 중 2위권.",
     price: { band: "중상위" },
+    profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
       model: "P770 (2024)",
       lofts: [
@@ -335,6 +356,7 @@ export const BRANDS: readonly Brand[] = [
       band: "최상위",
       note: "0311 P GEN7 5-G(6클럽) 세트 기준 약 US$800 선",
     },
+    profile: { skill: ["중급", "상급"], priority: "관용성", fitting: "필수" },
     signatureIron: {
       model: "0311 P GEN6",
       lofts: [
@@ -367,6 +389,7 @@ export const BRANDS: readonly Brand[] = [
       "100년 이상 축적된 그레인 플로우 단조(Grain Flow Forged) 공법으로, 아이언 타구감 평가에서 오랫동안 기준으로 꼽혀온 브랜드. 종합 스포츠 기업이면서도 골프 아이언에서는 장인형 평판을 유지한다.",
     tour: "2025 PGA 투어 아이언 기준 11승에 사용.",
     price: { band: "중상위" },
+    profile: { skill: ["중급", "상급"], priority: "타구감", fitting: "권장" },
     signatureIron: {
       model: "JPX923 Tour",
       lofts: [
@@ -404,6 +427,7 @@ export const BRANDS: readonly Brand[] = [
       "1901년 고베에서 설립된 스미토모 고무공업의 골프 부문에서 출발해, 오랫동안 타 브랜드의 볼을 만들다가 1996년 자체 브랜드를 출범시켰다. 브랜드명은 사명 이니셜(SRI)에 'ON'을 붙인 것이다.",
     tour: "2025 PGA 투어 아이언 기준 25승에 사용. 마케팅 규모를 감안하면 이례적으로 높은 수치다.",
     price: { band: "중가", note: "동급 성능 대비 가격이 낮다는 평가가 일관적" },
+    profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
       model: "ZX7 Mk II",
       lofts: [
@@ -440,6 +464,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1950년 니가타에서 창업한 엔도 제작소가 1977년 자사 브랜드로 내놓은 것이 EPON이다. 엔도는 캘러웨이·타이틀리스트 등 해외 대형 브랜드의 단조 아이언을 위탁 생산해온 일본 최대급 단조 공방으로, EPON은 그 제조 역량을 자기 브랜드로 보여주는 라인이다.",
     price: { band: "최상위", note: "소량 생산 커스텀 유통으로 정가 비교가 어려움" },
+    profile: { skill: ["상급"], priority: "타구감", fitting: "필수" },
     signatureIron: {
       model: "AF-702",
       lofts: [],
@@ -472,6 +497,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1903년 애슐랜드 제조사로 출발한 윌슨이 1914년 골프 부문을 세웠다. 월터 헤이건·진 사라센과 함께한 시기를 거치며 통산 62승의 메이저 우승 장비를 배출해, 단일 브랜드 기준 역대 최다 기록을 갖고 있다. 다만 현재의 시장 존재감은 전성기와 차이가 있다.",
     price: { band: "중가" },
+    profile: { skill: ["상급"], priority: "타구감", fitting: "불필요" },
     signatureIron: {
       model: "Staff Model Blade",
       lofts: [
@@ -502,6 +528,7 @@ export const BRANDS: readonly Brand[] = [
       "1931년 구루메에서 창업한 브리지스톤이 1935년 골프볼 생산을 시작했고, 1972년부터 클럽까지 영역을 넓혔다. 2024년 말에는 엔도 제작소와의 협업으로 제작한 프리미엄 단조 아이언·웨지를 앞세워 미국 클럽 시장에 재진입했다.",
     tour: "2025 PGA 투어 아이언 기준 1승에 사용.",
     price: { band: "중상위" },
+    profile: { skill: ["중급", "상급"], priority: "타구감", fitting: "권장" },
     sources: [
       {
         label: "Bridgestone Golf — About",
@@ -523,6 +550,7 @@ export const BRANDS: readonly Brand[] = [
       "골프 프로 출신 데이비드 글로드가 1986년 일리노이에서 창업했고, 지금도 창업자가 R&D를 직접 이끄는 드문 사례다. 투어 선수 계약과 마케팅 지출을 줄여 확보한 여력을 가격 경쟁력으로 돌리는 전략을 유지한다.",
     tour: "투어 선수 계약을 두지 않는 것을 전략으로 명시한다.",
     price: { band: "입문" },
+    profile: { skill: ["입문", "중급"], priority: "관용성", fitting: "불필요" },
     signatureIron: {
       model: "Hot Launch E524 (아이언우드)",
       lofts: [
@@ -558,6 +586,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1971년 스팔딩 산하에서 출범해 저가 골프볼로 자리를 잡았고, 2003년 캘러웨이(1억 2,500만 달러), 2012년 딕스 스포팅 굿즈(2,000만 달러)로 소유주가 바뀌었다. 현재는 딕스의 자체 브랜드로, 딕스와 골프갤럭시에서만 유통된다.",
     price: { band: "입문", note: "드라이버·우드·아이언·퍼터·백을 묶은 완제품 세트 중심" },
+    profile: { skill: ["입문"], priority: "관용성", fitting: "불필요" },
     signatureIron: {
       model: "XL 13-piece 세트",
       lofts: [],

@@ -5,6 +5,7 @@ const NAV = [
   { href: "/brands", label: "브랜드" },
   { href: "/lofts", label: "로프트" },
   { href: "/compare", label: "비교" },
+  { href: "/finder", label: "브랜드 찾기" },
   { href: "/#about", label: "선정 기준" },
 ];
 
