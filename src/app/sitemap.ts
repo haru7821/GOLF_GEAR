@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { BRANDS } from "@/data/brands";
 import { siteUrl } from "@/lib/site";
 
+// 정적 export(GitHub Pages)에서 파일로 떨어지도록 고정한다
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl, changeFrequency: "monthly", priority: 1 },

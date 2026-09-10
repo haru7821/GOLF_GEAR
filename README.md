@@ -17,8 +17,25 @@ npm run build   # 프로덕션 빌드 (전 페이지 정적 생성)
 npm run lint
 ```
 
-배포 도메인이 정해지면 `NEXT_PUBLIC_SITE_URL` 환경변수를 설정한다. 이 값은
-`metadataBase`, `sitemap.xml`, `robots.txt`에 함께 쓰인다.
+## 배포
+
+`main` 또는 `claude/golf-club-brand-site-cphzks`에 푸시하면
+`.github/workflows/deploy.yml`이 정적 export를 만들어 GitHub Pages에 올린다.
+(리포지터리 Settings → Pages → Source가 **GitHub Actions**여야 한다.)
+
+- `GITHUB_PAGES=true`일 때만 `output: "export"`로 전환된다. 로컬에서는 이 값이
+  없으므로 `next dev`/`next start`가 평소대로 동작한다.
+- 사이트가 `/<repo>` 하위 경로에 올라가므로 `PAGES_BASE_PATH`로 basePath를 넣는다.
+  두 값 모두 워크플로가 `actions/configure-pages`의 출력에서 채운다.
+- `NEXT_PUBLIC_SITE_URL`은 `metadataBase`·`sitemap.xml`·`robots.txt`에 함께 쓰인다.
+
+로컬에서 배포본을 그대로 확인하려면:
+
+```bash
+GITHUB_PAGES=true PAGES_BASE_PATH=/GOLF_GEAR \
+  NEXT_PUBLIC_SITE_URL=https://<user>.github.io/GOLF_GEAR npm run build
+# out/ 을 <서버루트>/GOLF_GEAR 로 두고 정적 서버로 서빙
+```
 
 ## 구조
 
