@@ -101,6 +101,12 @@ export type Brand = {
   heritage: string;
   /** 투어 채택·성적 근거. 확인된 자료가 없으면 생략한다. */
   tour?: string;
+  /**
+   * 2025 PGA 투어에서 그 브랜드의 아이언이 쓰인 우승 횟수.
+   * 출처 집계에 이름이 없으면 '0승'이 아니라 '집계에 없음'이므로
+   * 값을 넣지 않고 비워 둔다.
+   */
+  tourWins2025?: number;
   price: Price;
   profile: Profile;
   signatureIron?: SignatureIron;
@@ -142,6 +148,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "Acushnet Company 산하로 볼·클럽 전 라인업에서 투어 신뢰도가 가장 높은 브랜드. 프로 장비 선택에서 사실상의 기준점 역할을 해왔다.",
     tour: "2025 PGA 투어에서 가장 많이 사용된 아이언 브랜드. 아이언 기준 30승에 사용됐고, T100은 단일 모델 사용자 12명으로 최다.",
+    tourWins2025: 30,
     price: { band: "상위", note: "T100(2021) 5-P 세트 기준 약 US$495 선" },
     profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
@@ -175,6 +182,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "GE 엔지니어 출신 카스텐 솔하임이 캘리포니아 자택 차고에서 퍼터를 만들며 시작. 헤드 무게를 주변부로 분산하는 '페리미터 웨이팅'을 정착시켜, 시행착오에 의존하던 클럽 설계를 공학의 영역으로 옮겼다. 브랜드명은 임팩트 순간의 소리에서 따왔다.",
     tour: "2025 PGA 투어 아이언 사용 브랜드 상위권. 아이언 기준 9승에 사용.",
+    tourWins2025: 9,
     price: { band: "상위" },
     profile: { skill: ["입문", "중급", "상급"], priority: "균형", fitting: "필수" },
     signatureIron: {
@@ -239,6 +247,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "효고현 히메지에서 미우라 카츠히로가 설립. 헤드 공차를 ±0.5g 수준으로 관리하는 소량 수작업 단조로 '아이언의 예술품'이라 불리며, 창업자가 지금도 직접 헤드를 그라인딩한다. 대량 생산에 맞지 않는 공정 탓에 출시 물량 자체가 제한된다.",
     tour: "2025 PGA 투어 아이언 기준 1승에 사용. 계약 마케팅 없이 선수 선택으로만 올라온다.",
+    tourWins2025: 1,
     price: {
       band: "최상위",
       note: "아이언 1클럽당 약 US$279–339, 커스텀 피팅 포함 판매",
@@ -283,6 +292,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "빅버사로 대형 헤드 드라이버를 대중화한 이후, 페이스 설계 시뮬레이션을 앞세워 기술 혁신을 이끌어왔다. 2003년 톱플라이트를 인수했다가 2012년 딕스 스포팅 굿즈에 매각한 이력도 있다.",
     tour: "2025 PGA 투어 아이언 기준 8승에 사용.",
+    tourWins2025: 8,
     price: { band: "중상위" },
     profile: { skill: ["중급", "상급"], priority: "관용성", fitting: "권장" },
     signatureIron: {
@@ -320,6 +330,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "메탈우드를 대중화한 원조 브랜드로, 드라이버 기술 경쟁을 주도해왔다. 투어 전용에 가까운 P-시리즈부터 대중형까지 라인업 폭이 넓다.",
     tour: "2025 PGA 투어 아이언 기준 17승에 사용, 브랜드 중 2위권.",
+    tourWins2025: 17,
     price: { band: "중상위" },
     profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
@@ -388,6 +399,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "100년 이상 축적된 그레인 플로우 단조(Grain Flow Forged) 공법으로, 아이언 타구감 평가에서 오랫동안 기준으로 꼽혀온 브랜드. 종합 스포츠 기업이면서도 골프 아이언에서는 장인형 평판을 유지한다.",
     tour: "2025 PGA 투어 아이언 기준 11승에 사용.",
+    tourWins2025: 11,
     price: { band: "중상위" },
     profile: { skill: ["중급", "상급"], priority: "타구감", fitting: "권장" },
     signatureIron: {
@@ -426,6 +438,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1901년 고베에서 설립된 스미토모 고무공업의 골프 부문에서 출발해, 오랫동안 타 브랜드의 볼을 만들다가 1996년 자체 브랜드를 출범시켰다. 브랜드명은 사명 이니셜(SRI)에 'ON'을 붙인 것이다.",
     tour: "2025 PGA 투어 아이언 기준 25승에 사용. 마케팅 규모를 감안하면 이례적으로 높은 수치다.",
+    tourWins2025: 25,
     price: { band: "중가", note: "동급 성능 대비 가격이 낮다는 평가가 일관적" },
     profile: { skill: ["중급", "상급"], priority: "균형", fitting: "권장" },
     signatureIron: {
@@ -527,6 +540,7 @@ export const BRANDS: readonly Brand[] = [
     heritage:
       "1931년 구루메에서 창업한 브리지스톤이 1935년 골프볼 생산을 시작했고, 1972년부터 클럽까지 영역을 넓혔다. 2024년 말에는 엔도 제작소와의 협업으로 제작한 프리미엄 단조 아이언·웨지를 앞세워 미국 클럽 시장에 재진입했다.",
     tour: "2025 PGA 투어 아이언 기준 1승에 사용.",
+    tourWins2025: 1,
     price: { band: "중상위" },
     profile: { skill: ["중급", "상급"], priority: "타구감", fitting: "권장" },
     sources: [

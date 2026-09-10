@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
+import { TourWins } from "@/components/TourWins";
 import { TIERS, BRANDS, tierOf } from "@/data/brands";
 
 export default function Home() {
@@ -142,6 +143,23 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-paper/70">
                   가격대비 완성도와 시장 내 포지셔닝의 일관성.
                 </p>
+              </div>
+            </div>
+
+            <div className="mt-20 border-t border-paper/15 pt-14">
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
+                <h3 className="font-display text-2xl tracking-tight">
+                  2025 PGA 투어 우승에 쓰인 아이언
+                </h3>
+                <Link
+                  href="/lofts"
+                  className="font-mono text-xs text-brass hover:underline"
+                >
+                  로프트로 비교하기 →
+                </Link>
+              </div>
+              <div className="mt-8">
+                <TourWins />
               </div>
             </div>
           </div>
