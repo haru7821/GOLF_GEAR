@@ -17,7 +17,11 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { slug } = await params;
   const brand = BRANDS.find((b) => b.slug === slug);
-  return { title: brand ? `${brand.name} — CLUBRANK` : "CLUBRANK" };
+  if (!brand) return { title: "브랜드를 찾을 수 없음" };
+  return {
+    title: brand.name,
+    description: `${brand.name} — ${tierOf(brand.tier).labelKo} 등급. ${brand.note}`,
+  };
 }
 
 export default async function BrandDetailPage({ params }: Props) {
@@ -77,6 +81,12 @@ export default async function BrandDetailPage({ params }: Props) {
                 <dd className="mt-1">{brand.parent}</dd>
               </div>
             )}
+            <div>
+              <dt className="font-mono text-xs uppercase text-mist">
+                가격 포지셔닝
+              </dt>
+              <dd className="mt-1">{brand.price.band}</dd>
+            </div>
           </dl>
 
           <div className="mt-10 border-t border-line pt-8">
@@ -85,6 +95,22 @@ export default async function BrandDetailPage({ params }: Props) {
               {brand.heritage}
             </p>
           </div>
+
+          {brand.tour && (
+            <div className="mt-10 border-t border-line pt-8">
+              <h2 className="font-display text-xl">투어 · 검증</h2>
+              <p className="mt-3 leading-relaxed text-mist">{brand.tour}</p>
+            </div>
+          )}
+
+          {brand.price.note && (
+            <div className="mt-10 border-t border-line pt-8">
+              <h2 className="font-display text-xl">가격</h2>
+              <p className="mt-3 leading-relaxed text-mist">
+                {brand.price.note}
+              </p>
+            </div>
+          )}
 
           {brand.signatureIron && (
             <div className="mt-10 border-t border-line pt-8">
@@ -137,11 +163,32 @@ export default async function BrandDetailPage({ params }: Props) {
             </div>
           )}
 
+          {brand.sources.length > 0 && (
+            <div className="mt-10 border-t border-line pt-8">
+              <h2 className="font-display text-xl">출처</h2>
+              <ul className="mt-4 space-y-2">
+                {brand.sources.map((s) => (
+                  <li key={s.url}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-fairway underline underline-offset-4 hover:text-ink"
+                    >
+                      {s.label} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <p className="mt-16 rounded-md border border-line bg-ink/[0.02] p-4 font-mono text-xs leading-relaxed text-mist">
-            * 위 정보는 리뷰·리테일 자료를 교차 확인해 작성했으나 세트 연식·
-            리전에 따라 실제 사양과 차이가 있을 수 있습니다. 등급 근거는
-            검수 단계를 거쳐 최종 확정됩니다. 제조사 로고·제품 이미지는
-            사용 조건이 브랜드별로 확인되지 않아 표기하지 않았습니다.
+            * 사양은 리뷰 매체·리테일러 자료를 교차 확인해 작성했으나 연식과
+            판매 지역에 따라 실제와 차이가 있을 수 있습니다. 등급과 가격
+            포지셔닝은 사실이 아니라 편집 판단이며, 그 근거를 위 항목에
+            남겼습니다. 제조사 로고·제품 이미지는 사용 조건이 브랜드별로
+            확인되지 않아 표기하지 않았습니다.
           </p>
         </section>
       </main>

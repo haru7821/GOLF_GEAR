@@ -4,7 +4,9 @@ import { Logo } from "@/components/Logo";
 import { TIERS, BRANDS } from "@/data/brands";
 
 export const metadata: Metadata = {
-  title: "브랜드 등급 전체 보기 — CLUBRANK",
+  title: "브랜드 등급 전체 보기",
+  description:
+    "골프 클럽 브랜드를 S부터 D까지 다섯 등급으로 나눠 정리한 전체 목록.",
 };
 
 export default function BrandsPage() {
@@ -35,8 +37,9 @@ export default function BrandsPage() {
             브랜드 등급
           </h1>
           <p className="mt-4 max-w-xl text-mist">
-            등급이 높은 순으로 정렬되어 있습니다. 등급·설명은 정보 수집·검수
-            단계를 거쳐 지속적으로 갱신됩니다.
+            총 {BRANDS.length}개 브랜드를 다섯 등급으로 나눠 정리했습니다.
+            각 브랜드 페이지에서 등급 근거와 대표 아이언 사양을 확인할 수
+            있습니다.
           </p>
         </section>
 
@@ -61,7 +64,13 @@ export default function BrandsPage() {
                   <span className="font-mono text-xs uppercase text-mist">
                     {tier.label}
                   </span>
+                  <span className="ml-auto font-mono text-xs text-mist">
+                    {brands.length}
+                  </span>
                 </div>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-mist">
+                  {tier.desc}
+                </p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {brands.map((b) => (
                     <Link
@@ -69,7 +78,12 @@ export default function BrandsPage() {
                       href={`/brands/${b.slug}`}
                       className="rounded-md border border-line p-6 transition-colors hover:border-ink"
                     >
-                      <p className="font-display text-xl">{b.name}</p>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="font-display text-xl">{b.name}</p>
+                        <span className="font-mono text-xs whitespace-nowrap text-mist">
+                          {b.price.band}
+                        </span>
+                      </div>
                       <p className="mt-2 text-sm leading-relaxed text-mist">
                         {b.note}
                       </p>

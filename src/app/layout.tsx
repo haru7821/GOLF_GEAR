@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
+import { siteUrl, siteName, siteDescription } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,9 +21,19 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "CLUBRANK — 골프 클럽 브랜드 등급 가이드",
-  description:
-    "골프 클럽 브랜드를 공정한 기준으로 등급화해 보여주는 프리미엄 레퍼런스, CLUBRANK.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "CLUBRANK — 골프 클럽 브랜드 등급 가이드",
+    template: "%s — CLUBRANK",
+  },
+  description: siteDescription,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName,
+    title: "CLUBRANK — 골프 클럽 브랜드 등급 가이드",
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

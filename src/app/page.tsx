@@ -85,17 +85,17 @@ export default function Home() {
         <section id="brands" className="mx-auto max-w-[1120px] px-6 py-24">
           <div className="flex items-baseline justify-between">
             <h2 className="font-display text-3xl tracking-tight">
-              브랜드 등급 (샘플)
+              아이코닉 등급 브랜드
             </h2>
             <Link
               href="/brands"
               className="font-mono text-xs text-fairway hover:underline"
             >
-              전체 보기 →
+              전체 {BRANDS.length}개 브랜드 →
             </Link>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {BRANDS.map((b) => {
+            {BRANDS.filter((b) => b.tier === "S").map((b) => {
               const tier = tierOf(b.tier);
               return (
                 <Link
@@ -119,7 +119,8 @@ export default function Home() {
             })}
           </div>
           <p className="mt-6 font-mono text-xs text-mist">
-            * 위 등급·설명은 정보 수집·검수 전 샘플이며 사실관계 확인 후 갱신됩니다.
+            * 등급은 헤리티지·투어 검증·가격 포지셔닝을 종합한 편집 판단이며,
+            브랜드별 상세 페이지에 근거와 출처를 함께 적었습니다.
           </p>
         </section>
 
