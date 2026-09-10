@@ -93,6 +93,8 @@ export type Profile = {
 export type Brand = {
   slug: string;
   name: string;
+  /** 한글 표기 — 검색에서 "미우라"처럼 한글로 찾을 수 있게 한다 */
+  nameKo: string;
   tier: TierCode;
   note: string;
   origin: string;
@@ -140,6 +142,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "titleist",
     name: "Titleist",
+    nameKo: "타이틀리스트",
     tier: "S",
     note: "투어 채택률 1위, 모던 투어 아이언의 기준",
     origin: "미국",
@@ -175,6 +178,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "ping",
     name: "Ping",
+    nameKo: "핑",
     tier: "S",
     note: "주변 웨이팅과 커스텀 피팅을 정착시킨 엔지니어링 브랜드",
     origin: "미국",
@@ -204,6 +208,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "honma",
     name: "Honma",
+    nameKo: "혼마",
     tier: "S",
     note: "일본 프리미엄 헤리티지, 장인 수공정 마감",
     origin: "일본",
@@ -240,6 +245,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "miura",
     name: "Miura",
+    nameKo: "미우라",
     tier: "S",
     note: "손 단조 아이언의 정점, 클럽 헤드 장인정신의 상징",
     origin: "일본",
@@ -285,6 +291,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "callaway",
     name: "Callaway",
+    nameKo: "캘러웨이",
     tier: "A",
     note: "AI 페이스 설계 등 기술 혁신 주도",
     origin: "미국",
@@ -323,6 +330,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "taylormade",
     name: "TaylorMade",
+    nameKo: "테일러메이드",
     tier: "A",
     note: "투어와 소비자 라인업의 균형",
     origin: "미국",
@@ -357,6 +365,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "pxg",
     name: "PXG",
+    nameKo: "피엑스지",
     tier: "A",
     note: "고성능·고가 포지셔닝의 대표 브랜드",
     origin: "미국",
@@ -392,6 +401,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "mizuno",
     name: "Mizuno",
+    nameKo: "미즈노",
     tier: "A",
     note: "그레인 플로우 단조로 검증된 타구감",
     origin: "일본",
@@ -430,6 +440,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "srixon",
     name: "Srixon",
+    nameKo: "스릭슨",
     tier: "A",
     note: "브랜드 규모 대비 투어 성적이 두드러지는 실속형 프리미엄",
     origin: "일본",
@@ -469,6 +480,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "epon",
     name: "Epon",
+    nameKo: "에폰",
     tier: "A",
     note: "일본 최대 단조 공방이 자기 이름으로 내는 하이엔드 아이언",
     origin: "일본",
@@ -502,6 +514,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "wilson",
     name: "Wilson",
+    nameKo: "윌슨",
     tier: "B",
     note: "메이저 최다승 헤리티지, 현재는 시장 점유보다 정통성에 방점",
     origin: "미국",
@@ -532,6 +545,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "bridgestone",
     name: "Bridgestone",
+    nameKo: "브리지스톤",
     tier: "B",
     note: "볼에서 쌓은 신뢰를 클럽으로 확장 중인 일본 정통 브랜드",
     origin: "일본",
@@ -556,6 +570,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "tour-edge",
     name: "Tour Edge",
+    nameKo: "투어엣지",
     tier: "C",
     note: "투어 계약 대신 가격으로 승부하는 가치 지향 브랜드",
     origin: "미국",
@@ -592,6 +607,7 @@ export const BRANDS: readonly Brand[] = [
   {
     slug: "top-flite",
     name: "Top-Flite",
+    nameKo: "탑플라이트",
     tier: "D",
     note: "완제품 세트 중심의 입문 전용 브랜드",
     origin: "미국",
