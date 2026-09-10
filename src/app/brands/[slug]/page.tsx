@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Logo } from "@/components/Logo";
+import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { BRANDS, tierOf } from "@/data/brands";
 
 type Props = {
@@ -32,16 +32,7 @@ export default async function BrandDetailPage({ params }: Props) {
 
   return (
     <>
-      <header className="border-b border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-5">
-          <Link href="/">
-            <Logo />
-          </Link>
-          <Link href="/brands" className="text-sm text-mist hover:text-ink">
-            ← 전체 브랜드
-          </Link>
-        </div>
-      </header>
+      <SiteHeader current="/brands" />
 
       <main className="flex-1">
         <section className="mx-auto max-w-[720px] px-6 py-24">
@@ -160,6 +151,15 @@ export default async function BrandDetailPage({ params }: Props) {
                   ⚠ {brand.signatureIron.specNote}
                 </p>
               )}
+
+              {brand.signatureIron.lofts.length > 0 && (
+                <Link
+                  href="/lofts"
+                  className="mt-6 inline-block text-sm text-fairway underline underline-offset-4 hover:text-ink"
+                >
+                  다른 브랜드와 로프트 비교하기 →
+                </Link>
+              )}
             </div>
           )}
 
@@ -193,12 +193,7 @@ export default async function BrandDetailPage({ params }: Props) {
         </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-8 text-xs text-mist">
-          <Logo withWordmark={false} className="text-mist" />
-          <p>© {new Date().getFullYear()} CLUBRANK</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

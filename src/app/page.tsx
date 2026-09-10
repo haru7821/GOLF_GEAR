@@ -1,26 +1,11 @@
 import Link from "next/link";
-import { Logo } from "@/components/Logo";
+import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { TIERS, BRANDS, tierOf } from "@/data/brands";
 
 export default function Home() {
   return (
     <>
-      <header className="border-b border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-5">
-          <Logo />
-          <nav className="hidden gap-8 text-sm text-mist sm:flex">
-            <a href="#tiers" className="hover:text-ink">
-              등급 체계
-            </a>
-            <Link href="/brands" className="hover:text-ink">
-              브랜드
-            </Link>
-            <a href="#about" className="hover:text-ink">
-              소개
-            </a>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1">
         {/* Hero */}
@@ -163,12 +148,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-8 text-xs text-mist">
-          <Logo withWordmark={false} className="text-mist" />
-          <p>© {new Date().getFullYear()} CLUBRANK</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

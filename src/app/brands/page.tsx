@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Logo } from "@/components/Logo";
+import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { TIERS, BRANDS } from "@/data/brands";
 
 export const metadata: Metadata = {
@@ -12,21 +12,7 @@ export const metadata: Metadata = {
 export default function BrandsPage() {
   return (
     <>
-      <header className="border-b border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-5">
-          <Link href="/">
-            <Logo />
-          </Link>
-          <nav className="hidden gap-8 text-sm text-mist sm:flex">
-            <Link href="/brands" className="text-ink">
-              브랜드
-            </Link>
-            <Link href="/#about" className="hover:text-ink">
-              소개
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader current="/brands" />
 
       <main className="flex-1">
         <section className="mx-auto max-w-[1120px] px-6 pb-16 pt-20">
@@ -96,12 +82,7 @@ export default function BrandsPage() {
         })}
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-8 text-xs text-mist">
-          <Logo withWordmark={false} className="text-mist" />
-          <p>© {new Date().getFullYear()} CLUBRANK</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
