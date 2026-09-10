@@ -3,7 +3,8 @@ import { Logo } from "@/components/Logo";
 
 const NAV = [
   { href: "/brands", label: "브랜드" },
-  { href: "/lofts", label: "로프트 비교" },
+  { href: "/lofts", label: "로프트" },
+  { href: "/compare", label: "비교" },
   { href: "/#about", label: "선정 기준" },
 ];
 

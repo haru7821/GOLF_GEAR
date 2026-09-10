@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: siteUrl, changeFrequency: "monthly", priority: 1 },
     { url: `${siteUrl}/brands`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/lofts`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/compare`, changeFrequency: "monthly", priority: 0.7 },
     ...BRANDS.map((b) => ({
       url: `${siteUrl}/brands/${b.slug}`,
       changeFrequency: "monthly" as const,
