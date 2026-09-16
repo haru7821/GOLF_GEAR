@@ -20,7 +20,7 @@ const PLOT = {
 };
 
 /** 선택된 브랜드가 붙잡고 있는 색 슬롯. 다른 브랜드를 해제해도 색이 바뀌지 않는다. */
-type Claim = { slug: string; slot: number };
+type Claim = { id: string; slot: number };
 
 function lowestFreeSlot(claims: Claim[]): number | null {
   const used = new Set(claims.map((c) => c.slot));
@@ -30,9 +30,9 @@ function lowestFreeSlot(claims: Claim[]): number | null {
 
 export function LoftChart() {
   const [claims, setClaims] = useState<Claim[]>(() =>
-    DEFAULT_SELECTION.filter((slug) =>
-      LOFT_SERIES.some((s) => s.slug === slug),
-    ).map((slug, i) => ({ slug, slot: i })),
+    DEFAULT_SELECTION.filter((id) =>
+      LOFT_SERIES.some((s) => s.id === id),
+    ).map((id, i) => ({ id, slot: i })),
   );
   const [showReference, setShowReference] = useState(true);
   const [asTable, setAsTable] = useState(false);
@@ -41,19 +41,19 @@ export function LoftChart() {
   const selected = useMemo(() => {
     return claims
       .map((c) => {
-        const series = LOFT_SERIES.find((s) => s.slug === c.slug);
+        const series = LOFT_SERIES.find((s) => s.id === c.id);
         return series ? { ...series, color: SERIES_COLORS[c.slot] } : null;
       })
       .filter((v): v is LoftSeries & { color: string } => v !== null);
   }, [claims]);
 
-  function toggle(slug: string) {
+  function toggle(id: string) {
     setClaims((prev) => {
-      const existing = prev.find((c) => c.slug === slug);
-      if (existing) return prev.filter((c) => c.slug !== slug);
+      const existing = prev.find((c) => c.id === id);
+      if (existing) return prev.filter((c) => c.id !== id);
       const slot = lowestFreeSlot(prev);
       if (slot === null) return prev; // 6개 초과 선택은 막는다
-      return [...prev, { slug, slot }];
+      return [...prev, { id, slot }];
     });
   }
 
@@ -110,7 +110,7 @@ export function LoftChart() {
         const gap =
           Math.abs(clubs.indexOf(next.club) - clubs.indexOf(p.club)) > 1;
         return {
-          key: `${s.slug}-${p.club}`,
+          key: `${s.id}-${p.club}`,
           color: s.color,
           x1: x(p.club),
           y1: y(p.loft),
@@ -129,7 +129,7 @@ export function LoftChart() {
       .map((s) => {
         const last = s.points[s.points.length - 1];
         return {
-          name: s.name,
+          name: s.modelName,
           color: s.color,
           x: x(last.club) + 12,
           y: y(last.loft),
@@ -181,46 +181,67 @@ export function LoftChart() {
 
   const atCapacity = claims.length >= MAX_SELECTED;
 
+  /** 모델이 30개가 넘어 평평한 칩 줄로는 고를 수 없다. 브랜드로 묶어 보여준다. */
+  const byBrand = useMemo(() => {
+    const groups = new Map<string, typeof LOFT_SERIES>();
+    for (const s of LOFT_SERIES) {
+      groups.set(s.brandName, [...(groups.get(s.brandName) ?? []), s]);
+    }
+    return [...groups.entries()];
+  }, []);
+
   return (
     <div>
-      {/* 필터 행 — 아래 차트와 표 모두를 스코프한다 */}
-      <div className="flex flex-wrap items-center gap-2">
-        {LOFT_SERIES.map((s) => {
-          const claim = claims.find((c) => c.slug === s.slug);
-          const on = Boolean(claim);
-          const color = claim ? SERIES_COLORS[claim.slot] : undefined;
-          const disabled = !on && atCapacity;
-          return (
-            <button
-              key={s.slug}
-              type="button"
-              onClick={() => toggle(s.slug)}
-              disabled={disabled}
-              aria-pressed={on}
-              className={`group flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all ${
-                on
-                  ? "border-ink bg-ink text-paper"
-                  : disabled
-                    ? "cursor-not-allowed border-line text-line"
-                    : "border-line text-mist hover:border-ink hover:text-ink"
-              }`}
-            >
-              <span
-                className="h-2.5 w-2.5 rounded-full transition-colors"
-                style={{
-                  backgroundColor: color ?? "transparent",
-                  boxShadow: color ? "none" : "inset 0 0 0 1.5px currentColor",
-                }}
-              />
-              {s.name}
-              <span
-                className={`font-mono text-[11px] ${on ? "text-paper/60" : "text-mist/70"}`}
-              >
-                {s.coverage}
-              </span>
-            </button>
-          );
-        })}
+      {/* 모델 선택 — 아래 차트와 표 모두를 스코프한다. 모델 수가 많아 브랜드별로 묶는다 */}
+      <div className="max-h-[340px] space-y-4 overflow-y-auto rounded-lg border border-line p-5">
+        {byBrand.map(([brand, models]) => (
+          <div key={brand}>
+            <p className="font-mono text-[11px] tracking-widest text-mist uppercase">
+              {brand}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {models.map((s) => {
+                const claim = claims.find((c) => c.id === s.id);
+                const on = Boolean(claim);
+                const color = claim ? SERIES_COLORS[claim.slot] : undefined;
+                const disabled = !on && atCapacity;
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => toggle(s.id)}
+                    disabled={disabled}
+                    aria-pressed={on}
+                    title={`${s.label}${s.year ? ` (${s.year})` : ""} — 확인된 로프트 ${s.coverage}개`}
+                    className={`flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-all ${
+                      on
+                        ? "border-ink bg-ink text-paper"
+                        : disabled
+                          ? "cursor-not-allowed border-line text-line"
+                          : "border-line text-mist hover:border-ink hover:text-ink"
+                    }`}
+                  >
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full transition-colors"
+                      style={{
+                        backgroundColor: color ?? "transparent",
+                        boxShadow: color
+                          ? "none"
+                          : "inset 0 0 0 1.5px currentColor",
+                      }}
+                    />
+                    {s.modelName}
+                    <span
+                      className={`font-mono text-[11px] ${on ? "text-paper/60" : "text-mist/70"}`}
+                    >
+                      {s.coverage}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
@@ -356,7 +377,7 @@ export function LoftChart() {
               />
             ))}
             {selected.map((s) => (
-              <g key={s.slug}>
+              <g key={s.id}>
                 {s.points.map((p) => (
                   <circle
                     key={p.club}
@@ -422,7 +443,7 @@ function Tooltip({
   const rows = selected
     .map((s) => {
       const p = s.points.find((pt) => pt.club === club);
-      return p ? { name: s.name, color: s.color, loft: p.loft } : null;
+      return p ? { name: s.label, color: s.color, loft: p.loft } : null;
     })
     .filter((v): v is { name: string; color: string; loft: number } => v !== null)
     .sort((a, b) => a.loft - b.loft);
@@ -495,13 +516,13 @@ function LoftTable({
               클럽
             </th>
             {selected.map((s) => (
-              <th key={s.slug} className="py-3 pr-4 font-normal">
+              <th key={s.id} className="py-3 pr-4 font-normal">
                 <span className="flex items-center gap-2">
                   <span
                     className="h-0.5 w-4 rounded-full"
                     style={{ backgroundColor: s.color }}
                   />
-                  {s.name}
+                  {s.label}
                 </span>
               </th>
             ))}
@@ -517,7 +538,7 @@ function LoftTable({
               {selected.map((s) => {
                 const p = s.points.find((pt) => pt.club === c);
                 return (
-                  <td key={s.slug} className="py-2.5 pr-4 font-mono">
+                  <td key={s.id} className="py-2.5 pr-4 font-mono">
                     {p ? `${p.loft}°` : <span className="text-line">—</span>}
                   </td>
                 );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { BRANDS, tierOf } from "@/data/brands";
+import { CATEGORY_DESC, CATEGORY_ORDER, modelsOf, type IronModel } from "@/data/models";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -29,6 +30,12 @@ export default async function BrandDetailPage({ params }: Props) {
   const brand = BRANDS.find((b) => b.slug === slug);
   if (!brand) notFound();
   const tier = tierOf(brand.tier);
+  // 관용성이 낮은 쪽(블레이드)부터, 같은 성격이면 최신순
+  const models = [...modelsOf(brand.slug)].sort(
+    (a, b) =>
+      CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
+      (b.year ?? 0) - (a.year ?? 0),
+  );
 
   return (
     <>
@@ -103,63 +110,28 @@ export default async function BrandDetailPage({ params }: Props) {
             </div>
           )}
 
-          {brand.signatureIron && (
+          {models.length > 0 && (
             <div className="mt-10 border-t border-line pt-8">
-              <h2 className="font-display text-xl">
-                시그니처 아이언 — {brand.signatureIron.model}
-              </h2>
-
-              {brand.signatureIron.lofts.length > 0 && (
-                <div className="mt-5 overflow-x-auto">
-                  <table className="w-full min-w-[420px] border-collapse font-mono text-sm">
-                    <thead>
-                      <tr className="border-b border-line text-left text-xs uppercase text-mist">
-                        {brand.signatureIron.lofts.map((l) => (
-                          <th key={l.club} className="py-2 pr-4 font-normal">
-                            {l.club}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        {brand.signatureIron.lofts.map((l) => (
-                          <td key={l.club} className="py-2 pr-4">
-                            {l.loft}
-                          </td>
-                        ))}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              <ul className="mt-6 space-y-2">
-                {brand.signatureIron.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex gap-3 text-sm leading-relaxed text-mist"
-                  >
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-fairway" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              {brand.signatureIron.specNote && (
-                <p className="mt-5 font-mono text-xs leading-relaxed text-brass">
-                  ⚠ {brand.signatureIron.specNote}
-                </p>
-              )}
-
-              {brand.signatureIron.lofts.length > 0 && (
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 className="font-display text-xl">
+                  아이언 모델 <span className="text-mist">{models.length}</span>
+                </h2>
                 <Link
                   href="/lofts"
-                  className="mt-6 inline-block text-sm text-fairway underline underline-offset-4 hover:text-ink"
+                  className="text-sm text-fairway underline underline-offset-4 hover:text-ink"
                 >
-                  다른 브랜드와 로프트 비교하기 →
+                  로프트 비교 차트에서 보기 →
                 </Link>
-              )}
+              </div>
+              <p className="mt-2 text-sm text-mist">
+                2020년 이후 출시 모델 기준. 관용성이 낮은 순서로 정렬했습니다.
+              </p>
+
+              <div className="mt-8 space-y-10">
+                {models.map((m) => (
+                  <ModelCard key={m.id} model={m} />
+                ))}
+              </div>
             </div>
           )}
 
@@ -195,5 +167,97 @@ export default async function BrandDetailPage({ params }: Props) {
 
       <SiteFooter />
     </>
+  );
+}
+
+function ModelCard({ model }: { model: IronModel }) {
+  return (
+    <article className="rounded-lg border border-line p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 className="font-display text-2xl">{model.name}</h3>
+        <p className="font-mono text-xs text-mist">
+          {model.year ? `${model.year}년` : "출시 연도 미확인"}
+        </p>
+      </div>
+
+      <p className="mt-2 text-sm text-ink">{model.category}</p>
+      <p className="mt-1 text-xs leading-relaxed text-mist">
+        {CATEGORY_DESC[model.category]}
+      </p>
+
+      {model.construction && (
+        <p className="mt-4 text-sm leading-relaxed text-mist">
+          <span className="font-mono text-[11px] tracking-wider uppercase">
+            구조
+          </span>{" "}
+          {model.construction}
+        </p>
+      )}
+
+      {model.lofts.length > 0 ? (
+        <div className="mt-5 overflow-x-auto">
+          <table
+            className="w-full min-w-[420px] border-collapse font-mono text-sm"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            <caption className="sr-only">{model.name} 클럽별 로프트</caption>
+            <thead>
+              <tr className="border-b border-line text-left text-xs uppercase text-mist">
+                {model.lofts.map((l) => (
+                  <th key={l.club} className="py-2 pr-4 font-normal">
+                    {l.club}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {model.lofts.map((l) => (
+                  <td key={l.club} className="py-2 pr-4">
+                    {l.loft}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="mt-5 font-mono text-xs text-mist">
+          공개 자료에서 클럽별 로프트를 확인하지 못했습니다
+        </p>
+      )}
+
+      <ul className="mt-5 space-y-2">
+        {model.features.map((f) => (
+          <li key={f} className="flex gap-3 text-sm leading-relaxed text-mist">
+            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-fairway" />
+            {f}
+          </li>
+        ))}
+      </ul>
+
+      {model.specNote && (
+        <p className="mt-5 font-mono text-xs leading-relaxed text-brass">
+          ⚠ {model.specNote}
+        </p>
+      )}
+
+      {model.sources && model.sources.length > 0 && (
+        <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1">
+          {model.sources.map((src) => (
+            <li key={src.url}>
+              <a
+                href={src.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[11px] text-fairway underline underline-offset-2 hover:text-ink"
+              >
+                {src.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </article>
   );
 }

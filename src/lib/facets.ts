@@ -1,4 +1,5 @@
 import { BRANDS, type Brand, type PriceBand } from "@/data/brands";
+import { modelsOf } from "@/data/models";
 
 /** 가격 밴드를 비싼 순으로 고정 정렬하기 위한 순서 */
 export const PRICE_ORDER: PriceBand[] = [
@@ -61,7 +62,7 @@ export function hasAnyFilter(f: Filters) {
 }
 
 function hasLofts(b: Brand) {
-  return (b.signatureIron?.lofts.length ?? 0) > 0;
+  return modelsOf(b.slug).some((m) => m.lofts.length > 0);
 }
 
 /**

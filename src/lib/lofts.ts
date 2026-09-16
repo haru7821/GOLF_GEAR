@@ -1,4 +1,5 @@
-import { BRANDS, type Brand } from "@/data/brands";
+import { BRANDS } from "@/data/brands";
+import { IRON_MODELS, type IronModel } from "@/data/models";
 
 /** 차트 X축의 표준 클럽 순서 */
 export const CLUB_AXIS = [
@@ -18,8 +19,8 @@ export type Club = (typeof CLUB_AXIS)[number];
 
 /**
  * 브랜드마다 클럽 표기가 달라 표준 축에 맞춰 정규화한다.
- * 혼마는 PW/GW를 10I/11I로, PXG는 W/G로 부르고, 어프로치 웨지(AW)는
- * 세트 내 위치상 갭 웨지 자리에 해당한다.
+ * 혼마는 PW/GW를 10I/11I로, PXG는 W/G로 부르고, 어프로치 웨지(AW)와
+ * 유틸리티 웨지(UW)는 세트 내 위치상 갭 웨지 자리에 해당한다.
  */
 const CLUB_ALIASES: Record<string, Club> = {
   "PW(10I)": "PW",
@@ -27,6 +28,7 @@ const CLUB_ALIASES: Record<string, Club> = {
   W: "PW",
   G: "GW",
   AW: "GW",
+  UW: "GW",
 };
 
 function normalizeClub(raw: string): Club | null {
@@ -35,7 +37,7 @@ function normalizeClub(raw: string): Club | null {
   return (CLUB_AXIS as readonly string[]).includes(raw) ? (raw as Club) : null;
 }
 
-/** "33°" → 33, "20.5°" → 20.5. 범위 표기("45–48°")처럼 단일 값이 아니면 제외한다. */
+/** "33°" → 33, "20.5°" → 20.5. 단일 값이 아니면 제외한다. */
 function parseLoft(raw: string): number | null {
   const match = /^(\d+(?:\.\d+)?)°$/.exec(raw.trim());
   return match ? Number(match[1]) : null;
@@ -44,42 +46,56 @@ function parseLoft(raw: string): number | null {
 export type LoftPoint = { club: Club; loft: number };
 
 export type LoftSeries = {
-  slug: string;
-  name: string;
-  model: string;
+  /** 모델 id */
+  id: string;
+  /** 차트 범례에 쓰는 이름 — "Titleist T100" */
+  label: string;
+  brandSlug: string;
+  brandName: string;
+  modelName: string;
+  year?: number;
+  category: IronModel["category"];
   points: LoftPoint[];
-  /** 세트 전체 대비 확보된 로프트 수 — 데이터 완전성을 UI에 노출하기 위한 값 */
+  /** 확인된 로프트 수 — 데이터 완전성을 UI에 노출한다 */
   coverage: number;
 };
 
-function toSeries(brand: Brand): LoftSeries | null {
-  const iron = brand.signatureIron;
-  if (!iron) return null;
+const brandName = (slug: string) =>
+  BRANDS.find((b) => b.slug === slug)?.name ?? slug;
 
+function toSeries(model: IronModel): LoftSeries | null {
   const points: LoftPoint[] = [];
-  for (const spec of iron.lofts) {
+  for (const spec of model.lofts) {
     const club = normalizeClub(spec.club);
     const loft = parseLoft(spec.loft);
     if (club && loft !== null) points.push({ club, loft });
   }
   if (points.length === 0) return null;
 
-  points.sort(
-    (a, b) => CLUB_AXIS.indexOf(a.club) - CLUB_AXIS.indexOf(b.club),
-  );
+  points.sort((a, b) => CLUB_AXIS.indexOf(a.club) - CLUB_AXIS.indexOf(b.club));
+  const brand = brandName(model.brandSlug);
   return {
-    slug: brand.slug,
-    name: brand.name,
-    model: iron.model,
+    id: model.id,
+    label: `${brand} ${model.name}`,
+    brandSlug: model.brandSlug,
+    brandName: brand,
+    modelName: model.name,
+    year: model.year,
+    category: model.category,
     points,
     coverage: points.length,
   };
 }
 
-/** 로프트가 하나라도 확인된 브랜드만 차트 대상이 된다. */
-export const LOFT_SERIES: readonly LoftSeries[] = BRANDS.map(toSeries).filter(
-  (s): s is LoftSeries => s !== null,
-);
+/** 로프트가 하나라도 확인된 모델만 차트 대상이 된다. */
+export const LOFT_SERIES: readonly LoftSeries[] = IRON_MODELS.map(toSeries)
+  .filter((s): s is LoftSeries => s !== null)
+  .sort(
+    (a, b) =>
+      a.brandName.localeCompare(b.brandName) ||
+      (b.year ?? 0) - (a.year ?? 0) ||
+      a.modelName.localeCompare(b.modelName),
+  );
 
 /**
  * 참고용 기준선. 거리 경쟁이 붙기 이전의 전통적인 아이언 로프트 배열을
@@ -97,17 +113,28 @@ export const CLASSIC_REFERENCE: LoftPoint[] = [
 ];
 
 export type SevenIron = {
-  slug: string;
-  name: string;
-  model: string;
+  id: string;
+  brandSlug: string;
+  brandName: string;
+  modelName: string;
+  year?: number;
+  category: IronModel["category"];
   loft: number;
 };
 
 /** 7번 아이언은 업계에서 로프트 강도를 비교할 때 쓰는 기준 클럽이다. */
-export const SEVEN_IRONS: readonly SevenIron[] = LOFT_SERIES.map((s) => {
+export const SEVEN_IRONS: readonly SevenIron[] = LOFT_SERIES.map((s): SevenIron | null => {
   const point = s.points.find((p) => p.club === "7I");
   return point
-    ? { slug: s.slug, name: s.name, model: s.model, loft: point.loft }
+    ? {
+        id: s.id,
+        brandSlug: s.brandSlug,
+        brandName: s.brandName,
+        modelName: s.modelName,
+        year: s.year,
+        category: s.category,
+        loft: point.loft,
+      }
     : null;
 })
   .filter((v): v is SevenIron => v !== null)
@@ -137,5 +164,10 @@ export const SERIES_COLORS: readonly string[] = [
 
 export const MAX_SELECTED = SERIES_COLORS.length;
 
-/** 기본 선택: 정통(윌슨)부터 강로프트(PXG)까지 폭을 한눈에 보여주는 조합 */
-export const DEFAULT_SELECTION = ["wilson", "titleist", "srixon", "pxg"];
+/** 기본 선택: 정통부터 강로프트까지 폭을 한눈에 보여주는 조합 */
+export const DEFAULT_SELECTION = [
+  "wilson-staff-model-cb-2024",
+  "titleist-t100-2025",
+  "srixon-zxi5-2025",
+  "mizuno-pro-245-2024",
+];

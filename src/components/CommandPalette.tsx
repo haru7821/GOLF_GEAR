@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BRANDS, tierOf } from "@/data/brands";
+import { modelsOf } from "@/data/models";
 
 type Item = {
   href: string;
@@ -42,12 +43,14 @@ const PAGES: Item[] = [
 
 const BRAND_ITEMS: Item[] = BRANDS.map((b) => {
   const tier = tierOf(b.tier);
+  const models = modelsOf(b.slug);
   return {
     href: `/brands/${b.slug}`,
     title: b.name,
     hint: `${b.nameKo} · ${tier.labelKo} · ${b.origin}${
-      b.signatureIron ? ` · ${b.signatureIron.model}` : ""
+      models.length ? ` · 모델 ${models.length}개` : ""
     }`,
+    // 모델명으로도 브랜드를 찾을 수 있게 색인한다 ("P790" → TaylorMade)
     haystack: [
       b.name,
       b.nameKo,
@@ -56,7 +59,7 @@ const BRAND_ITEMS: Item[] = BRANDS.map((b) => {
       b.parent ?? "",
       tier.labelKo,
       b.price.band,
-      b.signatureIron?.model ?? "",
+      ...models.map((m) => `${m.name} ${m.year ?? ""}`),
     ]
       .join(" ")
       .toLowerCase(),

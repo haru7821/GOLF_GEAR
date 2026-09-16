@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BRANDS, tierOf, type Brand } from "@/data/brands";
+import { modelById, modelsOf } from "@/data/models";
 
 const MAX = 3;
 const DEFAULT = ["titleist", "miura", "srixon"];
@@ -154,23 +155,53 @@ export function BrandCompare() {
                   }
                 />
                 <Row
-                  label="시그니처 아이언"
+                  label="아이언 모델"
                   brands={selected}
-                  cell={(b) =>
-                    b.signatureIron?.model ?? (
+                  cell={(b) => {
+                    const models = modelsOf(b.slug);
+                    return models.length > 0 ? (
+                      <ul className="space-y-1">
+                        {models.map((m) => (
+                          <li key={m.id}>
+                            {m.name}
+                            <span className="ml-1.5 font-mono text-[11px] text-mist">
+                              {m.year ?? "연도 미확인"}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
                       <span className="text-mist">—</span>
-                    )
-                  }
+                    );
+                  }}
+                />
+                <Row
+                  label="대표 모델"
+                  brands={selected}
+                  cell={(b) => {
+                    const m = b.flagshipModelId
+                      ? modelById(b.flagshipModelId)
+                      : undefined;
+                    return m ? `${m.name} (${m.category})` : (
+                      <span className="text-mist">—</span>
+                    );
+                  }}
                 />
                 <Row
                   label="7번 로프트"
                   brands={selected}
                   cell={(b) => {
-                    const seven = b.signatureIron?.lofts.find(
-                      (l) => l.club === "7I",
-                    );
+                    const m = b.flagshipModelId
+                      ? modelById(b.flagshipModelId)
+                      : undefined;
+                    const seven = m?.lofts.find((l) => l.club === "7I");
                     return seven ? (
-                      <span className="font-mono">{seven.loft}</span>
+                      <span className="font-mono">
+                        {seven.loft}
+                        <span className="ml-1.5 text-[11px] text-mist">
+                          {m?.name}
+                        </span>
+                      </span>
                     ) : (
                       <span className="text-mist">미확인</span>
                     );
@@ -180,21 +211,27 @@ export function BrandCompare() {
                   label="로프트 확보"
                   brands={selected}
                   cell={(b) => {
-                    const n = b.signatureIron?.lofts.length ?? 0;
-                    return n > 0 ? (
-                      <span className="font-mono">{n}개 클럽</span>
+                    const total = modelsOf(b.slug).reduce(
+                      (n, m) => n + m.lofts.length,
+                      0,
+                    );
+                    return total > 0 ? (
+                      <span className="font-mono">{total}개 클럽</span>
                     ) : (
                       <span className="text-mist">없음</span>
                     );
                   }}
                 />
                 <Row
-                  label="주요 특징"
+                  label="대표 모델 특징"
                   brands={selected}
-                  cell={(b) =>
-                    b.signatureIron ? (
+                  cell={(b) => {
+                    const m = b.flagshipModelId
+                      ? modelById(b.flagshipModelId)
+                      : undefined;
+                    return m ? (
                       <ul className="space-y-1.5">
-                        {b.signatureIron.features.map((f) => (
+                        {m.features.map((f) => (
                           <li key={f} className="flex gap-2 text-sm">
                             <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-fairway" />
                             {f}
@@ -203,8 +240,8 @@ export function BrandCompare() {
                       </ul>
                     ) : (
                       <span className="text-mist">—</span>
-                    )
-                  }
+                    );
+                  }}
                 />
                 <Row
                   label="출처"

@@ -18,7 +18,7 @@ export default function LoftsPage() {
   const strongest = SEVEN_IRONS.filter((b) => b.loft === strongestLoft);
   const weakest = SEVEN_IRONS.filter((b) => b.loft === weakestLoft);
   const names = (list: typeof SEVEN_IRONS) =>
-    list.map((b) => b.name).join(" · ");
+    list.map((b) => `${b.brandName} ${b.modelName}`).join(" · ");
 
   return (
     <>
@@ -58,7 +58,7 @@ export default function LoftsPage() {
 
             <dl className="mt-16 grid grid-cols-2 gap-8 border-t border-paper/15 pt-10 sm:grid-cols-4">
               {[
-                { k: "비교 가능 브랜드", v: `${LOFT_SERIES.length}개` },
+                { k: "비교 가능 모델", v: `${LOFT_SERIES.length}개` },
                 { k: "7번 아이언 확보", v: `${SEVEN_IRONS.length}개` },
                 { k: "가장 강한 로프트", v: `${strongestLoft}°` },
                 { k: "가장 약한 로프트", v: `${weakestLoft}°` },

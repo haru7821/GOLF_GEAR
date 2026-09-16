@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:data": "rm -rf .datacheck && npx tsc src/data/models.ts src/data/brands.ts --outDir .datacheck --module esnext --target es2022 --moduleResolution bundler --skipLibCheck > /dev/null 2>&1; sed -i 's|@/data/brands|./brands.js|' .datacheck/models.js && node scripts/check-data.mjs; code=$?; rm -rf .datacheck; exit $code"
   },
   "dependencies": {
     "next": "16.3.4",

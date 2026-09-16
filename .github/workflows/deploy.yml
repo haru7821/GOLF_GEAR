@@ -33,6 +33,9 @@ jobs:
       - name: Lint
         run: npx eslint .
 
+      - name: Check iron data integrity
+        run: npm run check:data
+
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
