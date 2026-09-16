@@ -96,6 +96,22 @@ const SRC = {
     "Swing Yard — Callaway Apex Pro 사양",
     "https://swingyard.com/callaway-apex-pro-irons-specs-and-lofts/",
   ),
+  callawayTodaysGolfer24: S(
+    "Today's Golfer — Apex '24 Pro·CB·MB·UT 리뷰 (모델별 7번 로프트 구분)",
+    "https://www.todays-golfer.com/equipment/golf-clubs/irons/callaway/apex/callaway-apex-pro-cb-mb-ut-24-irons-review/",
+  ),
+  callawayGolfMonthlyPro24: S(
+    "Golf Monthly — 2024 Apex Pro 아이언 리뷰",
+    "https://www.golfmonthly.com/reviews/irons/callaway-2024-apex-pro-iron-review",
+  ),
+  callawayPreownedPro24: S(
+    "Callaway Golf Pre-Owned — Apex Pro 24 스펙",
+    "https://www.callawaygolfpreowned.com/iron-sets/irons-2024-apex-pro.html",
+  ),
+  callawayPreownedPro21: S(
+    "Callaway Golf Pre-Owned — Apex Pro 21 스펙",
+    "https://www.callawaygolfpreowned.com/iron-sets/irons-2021-apex-pro.html",
+  ),
   mizunoPro: S(
     "MyGolfSpy — Mizuno Pro 241·243·245",
     "https://mygolfspy.com/news-opinion/mizuno-pro-241-243-and-245-irons/",
@@ -387,13 +403,14 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "블레이드",
     construction: "1025 카본 스틸 일체 단조",
-    lofts: [],
+    lofts: L([["7I", "34°"]]),
     features: [
       "바디와 페이스를 1025 카본 스틸 한 덩어리로 단조",
       "세트 전체에 걸쳐 무게중심을 점진적으로 이동",
+      "같은 세대 Apex Pro(33°)보다 1° 약한 정통 로프트",
     ],
-    specNote: "클럽별 로프트가 공개 자료에서 확인되지 않음",
-    sources: [SRC.callawayApex24],
+    specNote: "7번(34°) 외 클럽별 로프트는 확인되지 않음",
+    sources: [SRC.callawayTodaysGolfer24, SRC.callawayApex24],
   },
   {
     id: "callaway-apex-cb-2024",
@@ -409,7 +426,7 @@ export const IRON_MODELS: readonly IronModel[] = [
       "투어 프로와 상급자를 겨냥한 투어 캐비티백",
     ],
     specNote: "7번(34°) 외 클럽별 로프트는 확인되지 않음",
-    sources: [SRC.callawayApex24],
+    sources: [SRC.callawayTodaysGolfer24, SRC.callawayApex24],
   },
   {
     id: "callaway-apex-pro-2024",
@@ -418,15 +435,39 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "플레이어스 디스턴스",
     construction: "중공 바디 + 단조 455 페이스 컵(롱)·1025 페이스 플레이트(숏)",
-    lofts: L([["AW", "50°"]]),
+    lofts: L([
+      ["3I", "20.5°"], ["7I", "33°"], ["8I", "37°"], ["9I", "41°"],
+      ["PW", "45°"], ["AW", "50°"],
+    ]),
     features: [
       "Apex 아이언 최초로 중공 바디 구조를 적용",
       "롱아이언은 단조 455 페이스 컵, 숏아이언은 1025 페이스 플레이트로 분리 설계",
-      "동급 플레이어스 아이언 대비 통상 1° 강한 로프트",
+      "같은 세대 CB·MB(7번 34°)보다 1° 강한 세팅",
     ],
     specNote:
-      "자료 간 충돌이 커서 대부분 보류: 3번 19°/20.5°, 7번 33°/34°, PW 45°/48°로 엇갈림. AW(50°)만 여러 자료가 일치",
-    sources: [SRC.callawaySwingyard, SRC.callawayApex24],
+      "4·5·6번 미확인. 확인된 6개 값은 Apex Pro 21과 전부 일치한다. 한동안 '3번 19°/20.5°, 7번 33°/34°, PW 45°/48°로 충돌'이라 적어 뒀으나, 재조사 결과 34°는 같은 세대 CB·MB의 값이 Pro에 잘못 섞인 것이었다",
+    sources: [
+      SRC.callawayGolfMonthlyPro24,
+      SRC.callawayTodaysGolfer24,
+      SRC.callawayPreownedPro24,
+    ],
+  },
+  {
+    id: "callaway-apex-pro-2021",
+    brandSlug: "callaway",
+    name: "Apex Pro 21",
+    year: 2021,
+    category: "플레이어스 디스턴스",
+    construction: "단조 바디 + 우레탄 마이크로스피어",
+    lofts: L([
+      ["3I", "20.5°"], ["4I", "23°"], ["5I", "26°"], ["6I", "29°"],
+      ["7I", "33°"], ["8I", "37°"], ["9I", "41°"], ["PW", "45°"], ["AW", "50°"],
+    ]),
+    features: [
+      "2024 세대 이전의 Apex Pro. 로프트 구성은 24와 동일한 것으로 확인됨",
+      "여러 스펙 페이지가 21과 24를 한 표에 섞어 놓아 혼동의 원인이 됐다",
+    ],
+    sources: [SRC.callawayPreownedPro21],
   },
 
   // ─── Mizuno ──────────────────────────────────────────────────

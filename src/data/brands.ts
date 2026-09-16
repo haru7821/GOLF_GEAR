@@ -232,7 +232,7 @@ export const BRANDS: readonly Brand[] = [
     tourWins2025: 8,
     price: { band: "중상위" },
     profile: { skill: ["중급", "상급"], priority: "관용성", fitting: "권장" },
-    flagshipModelId: "callaway-apex-cb-2024",
+    flagshipModelId: "callaway-apex-pro-2024",
     sources: [
       {
         label: "Swing Yard — Apex Pro 사양",
