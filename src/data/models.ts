@@ -64,6 +64,18 @@ const SRC = {
     "The Golf Hub — Titleist T-Series 로프트·라이 차트",
     "https://golfhubz.com/titleist-t-series-irons-specs/",
   ),
+  titleistT350Source: S(
+    "GolfSource — Titleist T350 사양",
+    "https://golfsource.org/irons/titleist/t350",
+  ),
+  titleistT350Plugged: S(
+    "Plugged In Golf — 2025 T350 리뷰 (7번 29° 실측 언급)",
+    "https://pluggedingolf.com/2025-titleist-t350-irons-review/",
+  ),
+  titleistT200Source: S(
+    "GolfSource — Titleist T200(2023) 사양",
+    "https://golfsource.org/irons/titleist/t200",
+  ),
   pingI230: S(
     "Plugged In Golf — PING i230 리뷰(스펙 포함)",
     "https://pluggedingolf.com/ping-i230-irons-review/",
@@ -247,14 +259,40 @@ export const IRON_MODELS: readonly IronModel[] = [
     name: "T350",
     year: 2025,
     category: "게임 임프루브먼트",
-    lofts: L([["5I", "22°"], ["7I", "29°"], ["PW", "43°"]]),
+    lofts: L([
+      ["4I", "20°"], ["6I", "26°"], ["7I", "29°"],
+      ["8I", "33°"], ["9I", "38°"], ["PW", "43°"],
+    ]),
     features: [
       "2025 T-시리즈 중 로프트가 가장 강하고 스핀이 가장 낮음",
+      "힐·토우 내부 텅스텐 웨이트로 강한 로프트에서도 높은 탄도를 확보",
       "높은 탄도와 거리를 우선한 관용성 중심 설계",
     ],
     specNote:
-      "6·8·9번 로프트 미확인. 7번 로프트도 자료에 따라 29°와 30.5°로 엇갈려 확정하지 못함",
-    sources: [SRC.titleist2025],
+      "5번만 22°/23°로 자료가 엇갈려 표기 보류(세대 차이 가능성). 7번은 한때 29°/30.5°로 충돌한다고 적어 뒀으나, 30.5°는 같은 패밀리 T200·T250의 값이 섞인 것이었고 29°가 2023·2025 양 세대와 복수 리뷰에서 일치한다",
+    sources: [
+      SRC.titleist2025,
+      SRC.golfhubTitleist,
+      SRC.titleistT350Source,
+      SRC.titleistT350Plugged,
+    ],
+  },
+  {
+    id: "titleist-t200-2023",
+    brandSlug: "titleist",
+    name: "T200",
+    year: 2023,
+    category: "플레이어스 디스턴스",
+    construction: "단조 SUP-10 페이스 인서트 + 폴리머 코어",
+    lofts: L([["7I", "30.5°"]]),
+    features: [
+      "2025년 T250으로 대체된 이전 세대 플레이어스 디스턴스",
+      "7번 30.5°로 같은 세대 T100(34°)보다 3.5° 강함",
+      "T350의 7번 로프트가 30.5°로 잘못 알려지는 혼동의 실제 출처",
+    ],
+    specNote:
+      "7번 외 클럽별 로프트 미확인. 7번도 일부 자료는 30°로 반올림해 적는다",
+    sources: [SRC.titleistT200Source, SRC.golfhubTitleist],
   },
 
   // ─── Ping ────────────────────────────────────────────────────
