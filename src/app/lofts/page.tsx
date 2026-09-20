@@ -17,8 +17,14 @@ export default function LoftsPage() {
   // 같은 로프트를 쓰는 브랜드가 여럿이면 전부 적는다
   const strongest = SEVEN_IRONS.filter((b) => b.loft === strongestLoft);
   const weakest = SEVEN_IRONS.filter((b) => b.loft === weakestLoft);
-  const names = (list: typeof SEVEN_IRONS) =>
-    list.map((b) => `${b.brandName} ${b.modelName}`).join(" · ");
+  // 동률이 여럿이면 다 나열하지 않고 줄인다 (34°에만 여러 모델이 몰려 있다)
+  const names = (list: typeof SEVEN_IRONS) => {
+    const shown = list.slice(0, 2).map((b) => `${b.brandName} ${b.modelName}`);
+    const rest = list.length - shown.length;
+    return rest > 0 ? `${shown.join(" · ")} 외 ${rest}개` : shown.join(" · ");
+  };
+  // 아이언 한 번호 간격은 보통 3~4° — 데이터가 바뀌어도 문구가 어긋나지 않게 계산한다
+  const clubsApart = Math.round((SEVEN_IRON_SPREAD.delta / 3.5) * 2) / 2;
 
   return (
     <>
@@ -50,8 +56,10 @@ export default function LoftsPage() {
                   {strongestLoft}°부터 가장 정통한{" "}
                   <strong className="text-paper">{names(weakest)}</strong>{" "}
                   {weakestLoft}°까지 —{" "}
-                  <strong className="text-paper">클럽 한 번호 반</strong>에
-                  해당하는 간격입니다.
+                  <strong className="text-paper">
+                    클럽 약 {clubsApart}개
+                  </strong>
+                  에 해당하는 간격입니다.
                 </p>
               </div>
             </div>

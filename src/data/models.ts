@@ -192,6 +192,50 @@ const SRC = {
     "GolfWRX — The Precision That Is Epon",
     "https://golfwrx.com/458482/the-precision-that-is-epon/",
   ),
+  eponAf707: S(
+    "Jeff Shuster Golf — Epon AF-707 사양",
+    "https://jeffshustergolf.com/products/epon-af-707",
+  ),
+  eponAfTourCb: S(
+    "Golf Shafts Australia — Epon AF-Tour CB 사양",
+    "https://golfshaftsaustralia.com/products/epon-iron-af-tour-cb",
+  ),
+  pingBlueprintS: S(
+    "GolfSource — Ping Blueprint S 사양",
+    "https://golfsource.org/irons/ping/blueprint-s",
+  ),
+  pingG430Chart: S(
+    "LoftChart — Ping G430 로프트·라이 차트",
+    "https://loftchart.com/ping/g430-irons/",
+  ),
+  pxgGen7Golfpass: S(
+    "GolfPass — PXG 0311 GEN7 P·XP 스펙",
+    "https://www.golfpass.com/travel-advisor/articles/pxg-0311-gen7-irons-new-specs-review",
+  ),
+  miuraCb302Spec: S(
+    "The Golf Club Trader — Miura CB-302 스펙시트",
+    "https://www.thegolfclubtrader.com/pages/miura-cb-302-iron-specifications",
+  ),
+  mizuno241Source: S(
+    "GolfSource — Mizuno Pro 241 사양",
+    "https://golfsource.org/irons/mizuno/pro-241",
+  ),
+  mizuno243Official: S(
+    "Mizuno 공식 — Pro 243 클럽 스펙",
+    "https://mizunogolf.com/us/golf-clubs/mp-series/mizuno-pro-243/club-specification/",
+  ),
+  wilsonBlade2024: S(
+    "Plugged In Golf — 2024 Wilson Staff Model Blade 리뷰",
+    "https://pluggedingolf.com/2024-wilson-staff-model-blades-irons-review/",
+  ),
+  srixonZx5ii: S(
+    "Plugged In Golf — Srixon ZX5 Mk II 리뷰",
+    "https://pluggedingolf.com/srixon-zx5-mk-ii-irons-review/",
+  ),
+  honmaTw767Vx: S(
+    "The Hackers Paradise — Honma TW767 Vx 리뷰",
+    "https://www.thehackersparadise.com/honma-tw767-vx-irons-review/",
+  ),
 };
 
 /** "33°" 형태로 통일해 두고, 파서가 숫자만 뽑아 쓴다. */
@@ -303,15 +347,15 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2023,
     category: "플레이어스 캐비티",
     construction: "단조",
-    lofts: [],
+    lofts: L([["3I", "21°"], ["7I", "34°"], ["PW", "48°"]]),
     features: [
       "핑의 단조 플레이어스 아이언 (주조인 i230과 대비되는 라인)",
       "파워 스펙(강)·레트로 스펙(약) 로프트 옵션을 동일하게 제공",
       "i230·Blueprint T와 콤보 세트를 구성할 수 있도록 설계",
     ],
     specNote:
-      "자료에는 'i230·Blueprint T와 로프트가 동일하다'고만 나와 클럽별 수치를 직접 확인하지 못해 비워 둠",
-    sources: [SRC.pingModelByModel],
+      "4·5·6·8·9번 미확인. 일부 자료는 'i230과 로프트가 동일하다'고 적지만, 실제 수치(7번 34°·PW 48°)는 i230(33°·45°)과 달라 그 설명을 따르지 않았다",
+    sources: [SRC.pingBlueprintS, SRC.pingModelByModel],
   },
   {
     id: "ping-i230-2022",
@@ -338,12 +382,12 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "플레이어스 디스턴스",
     construction: "단조 페이스 + 중공 바디",
-    lofts: L([["7I", "29°"], ["PW", "42°"]]),
+    lofts: L([["4I", "19°"], ["7I", "29°"], ["PW", "42°"], ["UW", "47°"]]),
     features: [
       "블레이드에 가까운 외형에 중공 구조로 거리를 확보",
       "7번 29°로 같은 브랜드 i230(33°)보다 4° 강함",
     ],
-    specNote: "4·5·6·8·9번 로프트는 공개 자료에서 확인되지 않아 표기하지 않음",
+    specNote: "5·6·8·9번 로프트는 공개 자료에서 확인되지 않아 표기하지 않음",
     sources: [SRC.pingI530],
   },
   {
@@ -352,14 +396,15 @@ export const IRON_MODELS: readonly IronModel[] = [
     name: "G430",
     year: 2023,
     category: "게임 임프루브먼트",
-    lofts: L([["PW", "41°"]]),
+    lofts: L([["7I", "29°"], ["PW", "41°"]]),
     features: [
       "세트 전체 로프트를 강화해 약 7~10야드 거리 이득을 노린 설계",
       "강해진 로프트 탓에 41° PW를 추가해 웨지 간격을 메움",
       "파워 스펙 로프트 옵션으로 추가 거리 조정 가능",
     ],
-    specNote: "PW(41°) 외 클럽별 로프트는 확인되지 않음",
-    sources: [SRC.pingModelByModel],
+    specNote:
+      "4·5·6·8·9번 로프트는 확인되지 않음. PW 이후는 단일 유틸리티 웨지 대신 45°·50° 웨지로 간격을 메우는 구성",
+    sources: [SRC.pingG430Chart, SRC.pingModelByModel],
   },
 
   // ─── TaylorMade ──────────────────────────────────────────────
@@ -370,13 +415,15 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2023,
     category: "블레이드",
     construction: "단조 머슬백",
-    lofts: L([["7I", "34°"], ["PW", "47°"]]),
+    lofts: L([
+      ["3I", "20°"], ["4I", "23°"], ["5I", "26°"], ["6I", "30°"],
+      ["7I", "34°"], ["8I", "38°"], ["9I", "42.5°"], ["PW", "47°"],
+    ]),
     features: [
       "P-시리즈에서 가장 얇은 톱라인과 가장 적은 오프셋",
-      "P7MC와 맞추기 위해 이전 세대보다 로프트를 강화",
+      "2,000톤 프레스로 5회 단조",
+      "같은 세대 P7MC와 클럽별 로프트가 완전히 동일한 것으로 확인됨",
     ],
-    specNote:
-      "자료에 'P7MC와 로프트가 같다'고 나오지만 클럽별 수치를 직접 확인하지 못해 7번·PW만 표기",
     sources: [SRC.tmP7mc],
   },
   {
@@ -516,14 +563,17 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "블레이드",
     construction: "그레인 플로우 단조 머슬백",
-    lofts: L([["3I", "20°"], ["7I", "34°"], ["PW", "47°"]]),
+    lofts: L([
+      ["3I", "20°"], ["4I", "24°"], ["5I", "27°"], ["6I", "30°"],
+      ["7I", "34°"], ["8I", "38°"], ["9I", "42°"],
+    ]),
     features: [
       "Pro 3종 중 헤드가 가장 작은 순수 머슬백",
       "최상급 볼스트라이커를 전제로 한 최소 관용성 설계",
+      "7번 34°로 같은 라인 245(30°)보다 4° 약한 정통 로프트",
     ],
-    specNote:
-      "4·5·6·8·9번 로프트 미확인. PW도 자료에 따라 46°/47°로 엇갈림",
-    sources: [SRC.mizunoPro],
+    specNote: "PW만 자료에 따라 46°/47°로 엇갈려 표기 보류",
+    sources: [SRC.mizuno241Source, SRC.mizunoPro],
   },
   {
     id: "mizuno-pro-243-2024",
@@ -539,8 +589,9 @@ export const IRON_MODELS: readonly IronModel[] = [
       "241 머슬백과 245 디스턴스 사이를 메우는 중간 모델",
       "어드레스에서는 블레이드처럼 보이되 얕은 캐비티로 미스히트를 보완",
     ],
-    specNote: "8·9번 로프트는 확인되지 않아 표기하지 않음",
-    sources: [SRC.mizunoPro],
+    specNote:
+      "8·9번 미확인. 일부 2차 자료는 7번 32°·PW 44°로 적지만, 공식 스펙에서 7번 31.5°·PW 45°가 확인돼 그대로 뒀다",
+    sources: [SRC.mizuno243Official, SRC.mizunoPro],
   },
   {
     id: "mizuno-pro-245-2024",
@@ -637,13 +688,15 @@ export const IRON_MODELS: readonly IronModel[] = [
     name: "ZX5 Mk II",
     year: 2023,
     category: "플레이어스 디스턴스",
-    lofts: L([["7I", "31°"], ["PW", "44°"]]),
+    lofts: L([
+      ["3I", "20°"], ["7I", "31°"], ["PW", "44°"], ["AW", "50°"],
+    ]),
     features: [
       "ZX7 Mk II와 같은 세대의 관용성 중심 모델",
       "7번 31°로 ZX7 Mk II(32°)보다 1° 강함",
     ],
-    specNote: "7번·PW 외 클럽별 로프트는 확인되지 않음",
-    sources: [SRC.srixonZxi5],
+    specNote: "4·5·6·8·9번 로프트는 확인되지 않음",
+    sources: [SRC.srixonZx5ii, SRC.srixonZxi5],
   },
 
   // ─── PXG ─────────────────────────────────────────────────────
@@ -672,15 +725,15 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "플레이어스 디스턴스",
     construction: "중공 바디 + 0.050인치(약 1.27mm) 가변 초박형 페이스",
-    lofts: L([["7I", "30°"]]),
+    lofts: L([["7I", "30°"], ["PW", "44°"]]),
     features: [
       "페이스 두께 0.050인치로 이전 세대보다 15% 얇게 가공",
       "QuantumCOR·티타늄 베젤 기술 적용",
       "이전 세대 대비 관성모멘트 3.1% 증가, 비거리 약 4야드 증가로 발표",
     ],
     specNote:
-      "제조사는 '길이·로프트 스펙이 이전 세대에서 그대로 이어진다'고 밝혔지만 클럽별 수치를 직접 확인하지 못해 7번만 표기",
-    sources: [SRC.pxgGen7],
+      "제조사는 '길이·로프트 스펙이 이전 세대에서 그대로 이어진다'고 밝혔지만, 7번·PW 외 클럽별 수치를 직접 확인하지 못해 옮기지 않았다",
+    sources: [SRC.pxgGen7, SRC.pxgGen7Golfpass],
   },
   {
     id: "pxg-0311-xp-gen7-2024",
@@ -739,13 +792,16 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2023,
     category: "플레이어스 캐비티",
     construction: "연철 단조",
-    lofts: L([["4I", "22°"], ["PW", "44°"]]),
+    lofts: L([
+      ["4I", "22°"], ["5I", "25°"], ["6I", "28°"], ["7I", "32°"],
+      ["8I", "36°"], ["9I", "40°"], ["PW", "44°"], ["GW", "48°"],
+    ]),
     features: [
       "미우라 공장에서 만든 것 중 가장 넓은 솔 폭(7번 기준 19mm)",
       "이전 모델 CB-301과 동일한 로프트 구성",
+      "7번 32°로 같은 브랜드 TC-201·MC-502(33°)보다 1° 강함",
     ],
-    specNote: "5~9번·7번 로프트는 공개 자료에서 확인되지 않음",
-    sources: [SRC.miuraCb302],
+    sources: [SRC.miuraCb302Spec, SRC.miuraCb302],
   },
 
   // ─── Honma ───────────────────────────────────────────────────
@@ -764,6 +820,21 @@ export const IRON_MODELS: readonly IronModel[] = [
       "B(블레이드)·Vx(캐비티)·P(플레이어스 디스턴스) 3종 중 중간",
       "자사 VIZARD 샤프트와의 조합을 전제로 한 매칭 설계",
     ],
+  },
+  {
+    id: "honma-tw767-vx-2024",
+    brandSlug: "honma",
+    name: "TW767 Vx",
+    year: 2024,
+    category: "플레이어스 디스턴스",
+    construction: "S20C 카본 스틸 단조",
+    lofts: L([["4I", "21°"], ["7I", "30°"], ["AW", "49°"]]),
+    features: [
+      "같은 세대 Tour V보다 강한 로프트로 플레이어스 디스턴스에 가까움",
+      "TW757 Vx의 후속으로 로프트 구성이 이어짐",
+    ],
+    specNote: "5·6·8·9번 로프트는 확인되지 않음",
+    sources: [SRC.honmaTw767Vx],
   },
   {
     id: "honma-tw767-hx-2025",
@@ -788,14 +859,17 @@ export const IRON_MODELS: readonly IronModel[] = [
     year: 2024,
     category: "블레이드",
     construction: "8620 카본 스틸 단조 머슬백",
-    lofts: L([["3I", "21°"], ["7I", "35°"], ["PW", "47°"]]),
+    lofts: L([
+      ["4I", "23°"], ["5I", "26°"], ["6I", "30°"], ["7I", "34°"], ["PW", "46°"],
+    ]),
     features: [
       "8620 카본 스틸 단조 머슬백",
-      "세트 전체가 정통 로프트(7번 35°)로, 최근 강로프트 흐름과 대비",
+      "세트 전체가 정통 로프트(7번 34°)로, 최근 강로프트 흐름과 대비",
       "스크래치~로우 핸디캡을 명시적으로 겨냥",
     ],
-    specNote: "4·5·6·8·9번 로프트는 확인되지 않음",
-    sources: [SRC.wilsonBlade],
+    specNote:
+      "8·9번 미확인. 이전에 7번 35°·PW 47°로 적어 뒀으나 그것은 더 최신 세대의 값이고, 2020~2022년과 2024년 모델은 7번 34°로 확인돼 바로잡았다",
+    sources: [SRC.wilsonBlade2024, SRC.wilsonBlade],
   },
   {
     id: "wilson-staff-model-cb-2024",
@@ -893,14 +967,18 @@ export const IRON_MODELS: readonly IronModel[] = [
     name: "AF-Tour CB",
     category: "플레이어스 캐비티",
     construction: "일본산 S20C 카본 스틸 단조",
-    lofts: L([["6I", "32°"], ["PW", "48°"]]),
+    lofts: L([
+      ["3I", "21°"], ["4I", "24°"], ["5I", "27°"], ["6I", "30°"],
+      ["7I", "34°"], ["8I", "38°"], ["9I", "42°"], ["PW", "46°"],
+    ]),
     features: [
       "일본산 S20C 카본 스틸 단조",
       "4° 등간격의 정통 로프트 구성",
       "AF-Tour MB II와 콤보 세트로 제공",
     ],
-    specNote: "출시 연도와 나머지 클럽 로프트는 확인되지 않음",
-    sources: [SRC.eponTour],
+    specNote:
+      "출시 연도 미확인. 이전에 6번 32°·PW 48°로 적어 뒀으나 그것은 별개 모델 'AF-Tour'(7번 36°)의 값이 섞인 것이라 바로잡았다",
+    sources: [SRC.eponAfTourCb, SRC.eponTour],
   },
   {
     id: "epon-af-707",
@@ -908,13 +986,16 @@ export const IRON_MODELS: readonly IronModel[] = [
     name: "AF-707",
     category: "플레이어스 디스턴스",
     construction: "포켓 캐비티 단조",
-    lofts: [],
+    lofts: L([
+      ["6I", "26°"], ["7I", "29°"], ["8I", "33°"], ["9I", "38°"], ["PW", "43°"],
+    ]),
     features: [
       "이전 세대의 중공 구조에서 포켓 캐비티로 전환",
       "로프트별로 무게중심 위치를 개별 설계해 헤드를 더 컴팩트하게 구성",
+      "엔도 제작소가 직접 단조하는 고반발 계열",
     ],
-    specNote: "출시 연도와 클럽별 로프트가 확인되지 않음",
-    sources: [SRC.eponTour],
+    specNote: "출시 연도와 4·5번 로프트는 확인되지 않음",
+    sources: [SRC.eponAf707, SRC.eponTour],
   },
 ];
 
